@@ -1,0 +1,168 @@
+<!DOCTYPE>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="manifest" href="manifest.json">
+	<style>
+		:root {
+			--theme-color: #7F39FB;
+			--theme-secondary-color: #DCB6FF;
+			--theme_tertiary-color: #FEFBFF;
+			--white: #fff;
+			--golden-spacing-1: 12px;
+			--golden-spacing-2: 16px;
+		}
+
+		body {
+			background: var(--theme_tertiary-color);
+			color: var(--theme-secondary-color);
+			font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+		}
+
+		.hidden { display: none;  }
+
+		#installContainer {
+			background: var(--theme-color);
+			border-radius: var(--golden-spacing-1);
+			color: var(--white);
+			padding: var(--golden-spacing-1) var(--golden-spacing-2);
+		}
+
+		#installContainer .title {
+			font-size: 1.4rem;
+			font-weight: bold;
+		}
+
+		#installContainer .desc {
+			margin-bottom: var(--golden-spacing-1);
+		}
+
+		#butInstall {
+			background: var(--white);
+			border: none;
+			border-radius: var(--golden-spacing-1);
+			color: var(--theme-color);
+			cursor: pointer;
+			font-weight: bold;
+			outline: none;
+			padding: var(--golden-spacing-1) var(--golden-spacing-2);
+			-webkit-appearance: none;
+		}
+
+		#butDismiss {
+			background: none;
+			border: none;
+			color: var(--white);
+			cursor: pointer;
+			opacity: .5;
+			outline: none;
+			padding: var(--golden-spacing-1) var(--golden-spacing-2);
+			-webkit-appearance: none;
+		}	
+	</style>
+</head>
+<body>
+	<h1>A simple Progressive Web App (PWA) boilerplate</h1> 
+	<p>Brought to you by <a href="http://www.onlywebpro.com">onlyWebPro.com</a></p>
+	<p>For more web development tutorial, please see <a href="http://www.onlywebpro.com">onlyWebPro.com</a></p>
+	<p><a href="http://www.onlywebpro.com">onlyWebPro</a> offers a dozen of How-to Web Development Tutorials for <strong>FREE</strong> to help you to get the skills you need to accelerate your career.</p>
+	<!-- Install button, hidden by default -->
+    <div id="installContainer" class="hidden">
+    	<div class="title">Install</div>
+    	<div class="desc">Find what you need faster with our free Web App!</div>
+		<button id="butInstall" type="button">
+			Install Now
+		</button>
+		<button id="butDismiss" type="button">
+			Not Now
+		</button>
+    </div>
+
+    <script>
+    // Prompt an Install Banner for PWA
+	const divInstall = document.getElementById('installContainer');
+	const butInstall = document.getElementById('butInstall');
+	const butDismiss = document.getElementById('butDismiss');
+
+	window.addEventListener('beforeinstallprompt', (event) => {
+		console.log('👍', 'beforeinstallprompt', event);
+		// Stash the event so it can be triggered later.
+		window.deferredPrompt = event;
+		// Remove the 'hidden' class from the install button container
+		divInstall.classList.toggle('hidden', false);
+	});
+
+
+	butInstall.addEventListener('click', async () => {
+		console.log('👍', 'butInstall-clicked');
+		const promptEvent = window.deferredPrompt;
+		if (!promptEvent) {
+			// The deferred prompt isn't available.
+			return;
+		}
+		// Show the install prompt.
+		promptEvent.prompt();
+		// Log the result
+		const result = await promptEvent.userChoice;
+		console.log('👍', 'userChoice', result);
+		// Reset the deferred prompt variable, since
+		// prompt() can only be called once.
+		window.deferredPrompt = null;
+		// Hide the install button.
+		divInstall.classList.toggle('hidden', true);
+	});
+
+
+	butDismiss.addEventListener('click', () => {
+		divInstall.classList.toggle('hidden', true);
+	});
+
+
+	window.addEventListener('appinstalled', (event) => {
+		console.log('👍', 'appinstalled', event);
+		// Clear the deferredPrompt so it can be garbage collected
+		window.deferredPrompt = null;
+	});
+
+
+	// Detect is service worker supported
+	if ('serviceWorker' in navigator) {
+	 	window.addEventListener('load', function() {
+    		navigator.serviceWorker.register('/sw_for_offline.js').then(reg => {
+				reg.installing; // the installing worker, or undefined
+				reg.waiting; // the waiting worker, or undefined
+				reg.active; // the active worker, or undefined
+
+				reg.addEventListener('updatefound', () => {
+					// A wild service worker has appeared in reg.installing!
+					const newWorker = reg.installing;
+
+					newWorker.state;
+					console.log(newWorker.state);
+					// "installing" - the install event has fired, but not yet complete
+					// "installed"  - install complete
+					// "activating" - the activate event has fired, but not yet complete
+					// "activated"  - fully active
+					// "redundant"  - discarded. Either failed install, or it's been
+					//                replaced by a newer version
+
+					newWorker.addEventListener('statechange', () => {
+						// newWorker.state has changed
+						console.log('state change');
+						console.log(newWorker.state);
+					});
+				});
+			});
+
+			navigator.serviceWorker.addEventListener('controllerchange', () => {
+				// This fires when the service worker controlling this page
+				// changes, eg a new worker has skipped waiting and become
+				// the new active worker.
+				console.log('control change');
+				console.log(newWorker.state);
+			});
+  		});
+	}
+	</script>
+</body>
+</html>

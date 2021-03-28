@@ -1,0 +1,34 @@
+{
+  "short_name": "Simple Progressive Web App | onlyWebPro.com",
+  "name": "Start development with Simple PWA boilerplate | onlyWebPro.com",
+  "icons": [
+    {
+      "src": "/images/icons-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/images/icons-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#7F39FB",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#7F39FB",
+  "description": "A simple PWA boilerplate for quick development",
+  "screenshots": [
+    {
+      "src": "/images/screenshot1.png",
+      "type": "image/png",
+      "sizes": "540x720"
+    },
+    {
+      "src": "/images/screenshot2.png",
+      "type": "image/png",
+      "sizes": "540x720"
+    }
+  ]
+}

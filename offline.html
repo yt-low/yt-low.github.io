@@ -1,0 +1,66 @@
+<!DOCTYPE>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		:root {
+			--theme-color: #7F39FB;
+			--theme-secondary-color: #DCB6FF;
+			--theme_tertiary-color: #FEFBFF;
+			--white: #fff;
+			--golden-spacing-1: 12px;
+			--golden-spacing-2: 16px;
+		}
+
+		body {
+			background: var(--theme_tertiary-color);
+			color: var(--theme-secondary-color);
+			font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+		}
+
+		.hidden { display: none;  }
+
+		#installContainer {
+			background: var(--theme-color);
+			border-radius: var(--golden-spacing-1);
+			color: var(--white);
+			padding: var(--golden-spacing-1) var(--golden-spacing-2);
+		}
+
+		#installContainer .title {
+			font-size: 1.4rem;
+			font-weight: bold;
+		}
+
+		#installContainer .desc {
+			margin-bottom: var(--golden-spacing-1);
+		}
+
+		#butInstall {
+			background: var(--white);
+			border: none;
+			border-radius: var(--golden-spacing-1);
+			color: var(--theme-color);
+			cursor: pointer;
+			font-weight: bold;
+			outline: none;
+			padding: var(--golden-spacing-1) var(--golden-spacing-2);
+			-webkit-appearance: none;
+		}
+
+		#butDismiss {
+			background: none;
+			border: none;
+			color: var(--white);
+			cursor: pointer;
+			opacity: .5;
+			outline: none;
+			padding: var(--golden-spacing-1) var(--golden-spacing-2);
+			-webkit-appearance: none;
+		}	
+	</style>
+</head>
+<body>
+	<h1>You're offline. Please try reload again.</h1>
+</body>
+</html>
